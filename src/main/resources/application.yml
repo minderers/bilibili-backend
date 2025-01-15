@@ -1,0 +1,81 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /bilibili-backend
+
+spring:
+  application:
+    name: bilibili-backend
+  profiles:
+    active: dev
+  mvc:
+    path-match:
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  type-aliases-package: bilibili.backend.*.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: deleteFlag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+logging:
+  config: classpath:log/logback-spring.xml
+
+# springdoc-openapi
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: bilibili.backend.controller
+
+# knife4j
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+  basic:
+    enable: true
+    username: admin
+    password: 123456
+
+auth:
+  valid_urls:
+    - /auth/logout
+    - /user/**
+    - /vote/isVote
+    - /vote/vote
+
+aliyun:
+  oss:
+    endpoint: oss-cn-hangzhou.aliyuncs.com
+    accessKeyId: LTAI5tL5W1XuHq3635UEymhw
+    accessKeySecret: 7zeYyVWgrhmUXNPWJL9VGhc2Pzl1UP
+    bucketName: bilibili-app
+
+share:
+  sms:
+    ccp:
+      serverIp: app.cloopen.com
+      port: 8883
+      accountSId: 2c94811c8cd4da0a018ef1b0b75766f5
+      accountToken: 1248939e5da04142aa27da323c9229d5
+      appId: 2c94811c8cd4da0a018ef1b0b8e366fc
+      templateId: 1
