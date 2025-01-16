@@ -6,9 +6,14 @@ import lombok.Data;
 import java.io.Serial;
 import java.io.Serializable;
 
+/**
+ * @author: minder
+ * @createTime: 2025/01/16 19:20
+ * @description:
+ **/
 @Data
-@Schema(description = "用户登录vo")
-public class UserLoginVO implements Serializable {
+@Schema(description = "用户注册vo")
+public class UserRegisterVO implements Serializable {
     @Serial
     private static final long serialVersionUID = 8212240698099812005L;
 
@@ -21,6 +26,4 @@ public class UserLoginVO implements Serializable {
     @Schema(description = "账户名")
     private String nickname;
 
-    @Schema(description = "令牌")
-    private String accessToken;
 }

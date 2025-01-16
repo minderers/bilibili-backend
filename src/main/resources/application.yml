@@ -44,7 +44,7 @@ springdoc:
   group-configs:
     - group: 'default'
       paths-to-match: '/**'
-      packages-to-scan: bilibili.backend.controller
+      packages-to-scan: top.dl.bilibili.backend.controller
 
 # knife4j
 knife4j:
@@ -60,8 +60,6 @@ auth:
   valid_urls:
     - /auth/logout
     - /user/**
-    - /vote/isVote
-    - /vote/vote
 
 aliyun:
   oss:

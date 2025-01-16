@@ -13,10 +13,10 @@ public class SwaggerConfig {
     public OpenAPI customOpenApi() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("中医在线 API")
-                        .contact(new Contact().name("ctynt").email("2597704619@qq.com"))
+                        .title("仿b站 API")
+                        .contact(new Contact().name("minder").email("2210151384@qq.com"))
                         .version("1.0")
-                        .description("中医在线应用 API 接⼝⽂档")
+                        .description("仿b站网页端 API 接⼝⽂档")
                         .license(new License().name("Apache 2.0").url("http://doc.xiaominfo.com")));
     }
 }

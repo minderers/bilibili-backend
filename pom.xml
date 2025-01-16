@@ -129,7 +129,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>medicine-online-client-backend</finalName>
+        <finalName>bilibili-backend</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

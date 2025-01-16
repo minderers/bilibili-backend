@@ -1,8 +1,7 @@
 package top.dl.bilibili.backend.common.config;
 
 import lombok.AllArgsConstructor;
-import medicine.online.client.backend.common.interceptor.PermitResource;
-import medicine.online.client.backend.common.interceptor.TokenInterceptor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -10,6 +9,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import top.dl.bilibili.backend.common.interceptor.PermitResource;
+import top.dl.bilibili.backend.common.interceptor.TokenInterceptor;
 
 @Configuration
 @AllArgsConstructor
