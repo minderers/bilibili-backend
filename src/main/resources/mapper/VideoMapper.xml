@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.dl.bilibili.backend.mapper.VideoMapper">
+    <select id="selectVideos" resultType="top.dl.bilibili.backend.model.vo.VideoVO">
+        SELECT v.*, u.nickname
+        FROM t_video v
+        LEFT JOIN t_user u ON v.user_id = u.pk_id
+        WHERE v.state = 2 AND v.delete_flag = 0
+    </select>
+
+    <resultMap id="videoDetailResultMap" type="top.dl.bilibili.backend.model.vo.VideoDetailVO">
+            <id property="pkId" column="video_id"/>
+            <result property="title" column="video_title"/>
+            <result property="cover" column="video_cover"/>
+            <result property="name" column="category_name"/>
+            <result property="url" column="video_url"/>
+            <result property="introduction" column="video_introduction"/>
+            <result property="likeNum" column="video_like_num"/>
+            <result property="starNum" column="video_star_num"/>
+            <result property="browseNum" column="video_browse_num"/>
+            <result property="nickname" column="user_nickname"/>
+            <result property="createTime" column="video_create_time"/>
+            <collection property="tagList" ofType="top.dl.bilibili.backend.model.vo.TagVO">
+                <id property="pkId" column="tag_id"/>
+                <result property="name" column="tag_name"/>
+            </collection>
+    </resultMap>
+
+        <select id="getDetail" resultMap="videoDetailResultMap">
+            SELECT
+                v.pk_id AS video_id,
+                v.title AS video_title,
+                v.cover AS video_cover,
+                v.url AS video_url,
+                v.introduction AS video_introduction,
+                v.like_num AS video_like_num,
+                v.star_num AS video_star_num,
+                v.browse_num AS video_browse_num,
+                v.create_time AS video_create_time,
+                u.nickname AS user_nickname,
+                c.name AS category_name,
+                t.pk_id AS tag_id,
+                t.name AS tag_name
+            FROM
+                t_video v
+                    LEFT JOIN
+                t_user u ON v.user_id = u.pk_id
+                    LEFT JOIN
+                t_category c ON v.category_id = c.pk_id
+                    LEFT JOIN
+                t_video_tag vt ON v.pk_id = vt.video_id AND vt.delete_flag = 0
+                    LEFT JOIN
+                t_tag t ON vt.tag_id = t.pk_id
+            WHERE
+                v.pk_id = #{videoId}
+            AND v.delete_flag = 0
+            AND u.delete_flag = 0
+            AND vt.delete_flag = 0
+            AND t.delete_flag = 0
+            ORDER BY
+                t.name ASC
+        </select>
+</mapper>

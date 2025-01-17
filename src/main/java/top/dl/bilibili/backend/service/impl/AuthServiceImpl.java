@@ -40,7 +40,7 @@ public class AuthServiceImpl extends ServiceImpl<UserMapper, User> implements Au
             user.setNickname(nickname);
             user.setPassword(password);
             user.setGender(0);
-            user.setAvatar("默认头像的url");
+            user.setAvatar("https://medicine-online-uni-fronted.oss-cn-hangzhou.aliyuncs.com/profile/fangxingtouxiang.png");
             user.setRemark("这个人很懒，什么都没有写");
             baseMapper.insert(user);
         }
