@@ -12,7 +12,7 @@ import top.dl.bilibili.backend.model.vo.UserRegisterVO;
  **/
 public interface AuthService extends IService<User> {
     /**
-     * 登录
+     * 注册
      *
      * @param nickname 账户名
      * @param password 密码

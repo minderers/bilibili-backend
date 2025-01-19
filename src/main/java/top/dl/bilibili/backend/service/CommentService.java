@@ -13,4 +13,5 @@ import top.dl.bilibili.backend.model.vo.CommentVO;
  **/
 public interface CommentService extends IService<Comment> {
     PageResult<CommentVO> getCommentList(CommentQuery query);
+    CommentVO addComment(Integer userId, Integer videoId, String content);
 }

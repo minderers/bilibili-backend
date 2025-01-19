@@ -6,6 +6,8 @@ import jakarta.annotation.Resource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import top.dl.bilibili.backend.common.cache.RedisCache;
+import top.dl.bilibili.backend.common.cache.RedisKeys;
 import top.dl.bilibili.backend.common.result.PageResult;
 import top.dl.bilibili.backend.mapper.VideoMapper;
 import top.dl.bilibili.backend.model.entity.Video;
@@ -25,7 +27,8 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor
 public class VideoServiceImpl extends ServiceImpl<VideoMapper, Video> implements VideoService {
-
+    @Resource
+    private RedisCache redisCache;
     @Override
     public PageResult<VideoVO> getVideoList(Query query) {
         Page<VideoVO> page = new Page<>(query.getPage(), query.getLimit());
@@ -35,6 +38,9 @@ public class VideoServiceImpl extends ServiceImpl<VideoMapper, Video> implements
 
     @Override
     public VideoDetailVO detail(Integer id) {
+        // 将id存到Redis中
+        String key = RedisKeys.getVideoIdKey(id);
+        redisCache.set(key, id, RedisCache.DEFAULT_EXPIRE);
         return baseMapper.getDetail(id);
     }
 }

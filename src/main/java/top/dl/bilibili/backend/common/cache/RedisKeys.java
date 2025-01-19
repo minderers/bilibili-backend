@@ -13,4 +13,6 @@ public class RedisKeys {
         return "sys:userId:" + id;
     }
 
+    public static String getVideoIdKey(Integer id){return "sys:videoId:" + id;}
+
 }

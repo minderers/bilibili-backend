@@ -7,18 +7,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import top.dl.bilibili.backend.common.result.PageResult;
 import top.dl.bilibili.backend.common.result.Result;
+import top.dl.bilibili.backend.mapper.CommentMapper;
+import top.dl.bilibili.backend.model.entity.Comment;
+import top.dl.bilibili.backend.model.entity.Screen;
 import top.dl.bilibili.backend.model.entity.Swiper;
 import top.dl.bilibili.backend.model.entity.Video;
 import top.dl.bilibili.backend.model.query.CommentQuery;
 import top.dl.bilibili.backend.model.query.Query;
-import top.dl.bilibili.backend.model.vo.CategoryVO;
-import top.dl.bilibili.backend.model.vo.CommentVO;
-import top.dl.bilibili.backend.model.vo.VideoDetailVO;
-import top.dl.bilibili.backend.model.vo.VideoVO;
-import top.dl.bilibili.backend.service.CategoryService;
-import top.dl.bilibili.backend.service.CommentService;
-import top.dl.bilibili.backend.service.SwiperService;
-import top.dl.bilibili.backend.service.VideoService;
+import top.dl.bilibili.backend.model.vo.*;
+import top.dl.bilibili.backend.service.*;
 
 import java.util.List;
 
@@ -36,6 +33,8 @@ public class IndexController {
     private final VideoService videoService;
     private final CommentService commentService;
     private final CategoryService categoryService;
+    private final ReplyService replyService;
+    private final ScreenService screenService;
     @GetMapping("/swiper")
     @Operation(summary = "轮播图")
     public Result<List<Swiper>> swiperList() {
@@ -60,5 +59,20 @@ public class IndexController {
     @Operation(summary = "查询视频评论和回复")
     public Result<PageResult<CommentVO>> videoDetailCommentList(@RequestBody @Valid CommentQuery query) {
         return Result.ok(commentService.getCommentList(query));
+    }
+    @PostMapping("/comment/add")
+    @Operation(summary = "添加评论")
+    public Result<CommentVO> addComment(@RequestParam("userId") Integer userId,@RequestParam("videoId") Integer videoId,@RequestParam("content") String content) {
+        return Result.ok(commentService.addComment(userId, videoId, content));
+    }
+    @PostMapping("/reply/add")
+    @Operation(summary = "添加回复")
+    public Result<ReplyVO> addReply(@RequestParam("commentId") Integer commentId,@RequestParam("userId") Integer userId,@RequestParam("content") String content) {
+        return Result.ok(replyService.addReply(commentId,userId, content));
+    }
+    @GetMapping("/videoDetail/screenList")
+    @Operation(summary = "弹幕列表")
+    public Result<List<Screen>> screenList(@RequestParam("videoId") Integer videoId) {
+        return Result.ok(screenService.selectScreen(videoId));
     }
 }
