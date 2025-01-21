@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.dl.bilibili.backend.mapper.StarMapper">
+
+    <select id="selectStarByUserId" resultType="top.dl.bilibili.backend.model.vo.StarVO">
+        SELECT
+            v.pk_id AS videoId,
+            v.title,
+            v.cover,
+            v.browse_num AS browseNum,
+            u.pk_id,
+            u.nickname,
+            v.create_time AS createTime
+        FROM
+            t_user_star s
+                JOIN
+            t_video v ON s.video_id = v.pk_id
+                JOIN
+            t_user u ON v.user_id = u.pk_id
+        WHERE
+            s.user_id = #{query.userId} AND s.delete_flag = 0
+    </select>
+</mapper>
