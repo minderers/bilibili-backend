@@ -60,4 +60,10 @@
             ORDER BY
                 t.name ASC
         </select>
+    <select id="selectCategoryVideos" resultType="top.dl.bilibili.backend.model.vo.VideoVO">
+        SELECT v.*, u.nickname
+        FROM t_video v
+                 LEFT JOIN t_user u ON v.user_id = u.pk_id
+        WHERE v.state = 2 AND v.delete_flag = 0 AND v.category_id = ${query.categoryId} AND v.user_id = ${query.userId}
+    </select>
 </mapper>

@@ -19,6 +19,7 @@ import top.dl.bilibili.backend.mapper.UserMapper;
 import top.dl.bilibili.backend.model.entity.Comment;
 import top.dl.bilibili.backend.model.entity.User;
 import top.dl.bilibili.backend.model.query.CommentQuery;
+import top.dl.bilibili.backend.model.query.UserCommentQuery;
 import top.dl.bilibili.backend.model.vo.CommentVO;
 import top.dl.bilibili.backend.service.CommentService;
 
@@ -59,6 +60,20 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         commentVO.setContent(content);
         commentVO.setCreateTime(LocalDateTime.now());
         return commentVO;
+    }
+
+    @Override
+    public CommentVO deleteComment(Integer id) {
+        Comment comment = baseMapper.selectById(id);
+        baseMapper.deleteById(id);
+        return null;
+    }
+
+    @Override
+    public PageResult<CommentVO> getNewCommentList(UserCommentQuery query) {
+        Page<CommentVO> page = new Page<>(query.getPage(), query.getLimit());
+        List<CommentVO> list = baseMapper.selectNewCommentList(page, query);
+        return new PageResult<>(list, page.getTotal());
     }
 }
 

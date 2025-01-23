@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import top.dl.bilibili.backend.common.result.PageResult;
 import top.dl.bilibili.backend.model.entity.Comment;
 import top.dl.bilibili.backend.model.query.CommentQuery;
+import top.dl.bilibili.backend.model.query.UserCommentQuery;
 import top.dl.bilibili.backend.model.vo.CommentVO;
 
 import java.util.List;
@@ -17,4 +18,5 @@ import java.util.List;
  **/
 public interface CommentMapper extends BaseMapper<Comment> {
     List<CommentVO> selectCommentList(Page<CommentVO> page, @Param("query") CommentQuery query);
+    List<CommentVO> selectNewCommentList(Page<CommentVO> page, @Param("query") UserCommentQuery query);
 }

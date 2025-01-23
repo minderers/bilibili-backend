@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import top.dl.bilibili.backend.common.result.PageResult;
 import top.dl.bilibili.backend.model.entity.Comment;
 import top.dl.bilibili.backend.model.query.CommentQuery;
+import top.dl.bilibili.backend.model.query.UserCommentQuery;
 import top.dl.bilibili.backend.model.vo.CommentVO;
 
 /**
@@ -14,4 +15,6 @@ import top.dl.bilibili.backend.model.vo.CommentVO;
 public interface CommentService extends IService<Comment> {
     PageResult<CommentVO> getCommentList(CommentQuery query);
     CommentVO addComment(Integer userId, Integer videoId, String content);
+    CommentVO deleteComment(Integer id);
+    PageResult<CommentVO> getNewCommentList(UserCommentQuery query);
 }

@@ -12,6 +12,7 @@ import top.dl.bilibili.backend.common.result.PageResult;
 import top.dl.bilibili.backend.mapper.VideoMapper;
 import top.dl.bilibili.backend.model.entity.Video;
 import top.dl.bilibili.backend.model.query.Query;
+import top.dl.bilibili.backend.model.query.VideoQuery;
 import top.dl.bilibili.backend.model.vo.VideoDetailVO;
 import top.dl.bilibili.backend.model.vo.VideoVO;
 import top.dl.bilibili.backend.service.VideoService;
@@ -42,5 +43,19 @@ public class VideoServiceImpl extends ServiceImpl<VideoMapper, Video> implements
         String key = RedisKeys.getVideoIdKey(id);
         redisCache.set(key, id, RedisCache.DEFAULT_EXPIRE);
         return baseMapper.getDetail(id);
+    }
+
+    @Override
+    public PageResult<VideoVO> getCategoryVideoList(VideoQuery query) {
+        Page<VideoVO> page = new Page<>(query.getPage(), query.getLimit());
+        List<VideoVO> list = baseMapper.selectVideos(page,query);
+        return new PageResult<>(list, page.getTotal());
+    }
+
+    @Override
+    public VideoVO delete(Integer id) {
+        Video video = baseMapper.selectById(id);
+        baseMapper.deleteById(id);
+        return null;
     }
 }

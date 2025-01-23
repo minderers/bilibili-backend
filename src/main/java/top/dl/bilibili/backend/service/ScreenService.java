@@ -12,4 +12,5 @@ import java.util.List;
  **/
 public interface ScreenService extends IService<Screen> {
     List<Screen> selectScreen(Integer videoId);
+    Screen deleteScreen(Integer id);
 }

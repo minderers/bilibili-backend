@@ -26,4 +26,11 @@ public class ScreenServiceImpl extends ServiceImpl<ScreenMapper, Screen> impleme
     public List<Screen> selectScreen(Integer videoId) {
         return screenMapper.selectList(new LambdaQueryWrapper<Screen>().eq(Screen::getVideoId,videoId));
     }
+
+    @Override
+    public Screen deleteScreen(Integer id) {
+        Screen screen = screenMapper.selectById(id);
+        baseMapper.deleteById(id);
+        return null;
+    }
 }
