@@ -41,4 +41,9 @@ public class AuthController {
         return Result.ok();
     }
 
+    @PostMapping("/loginByPhone")
+    @Operation(summary = "手机号登录")
+    public Result<UserLoginVO> loginByPhone(@RequestParam("phone") String phone, @RequestParam("code") String code){
+        return Result.ok(authService.loginByPhone(phone, code));
+    }
 }

@@ -42,7 +42,7 @@
         ORDER BY
             c.create_time DESC, r.create_time ASC
     </select>
-    <select id="selectNewCommentList" resultType="top.dl.bilibili.backend.model.vo.CommentVO">
+    <select id="selectNewCommentList" resultMap="commentResultMap">
         SELECT
             c.pk_id AS comment_id,
             c.content AS comment_content,
@@ -61,13 +61,9 @@
                 LEFT JOIN
             t_user ru ON r.user_id = ru.pk_id
         WHERE
-            c.user_id = ${query.userId}
-          AND c.delete_flag = 0
-          AND r.delete_flag = 0
-          AND u.delete_flag = 0
-          AND ru.delete_flag = 0
+            c.user_id = #{query.userId} AND c.delete_flag = 0
         ORDER BY
-            c.create_time DESC, r.create_time DESC;
+            c.create_time desc
     </select>
 
 </mapper>

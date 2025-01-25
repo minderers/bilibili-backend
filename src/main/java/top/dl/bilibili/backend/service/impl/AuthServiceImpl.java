@@ -107,4 +107,50 @@ public class AuthServiceImpl extends ServiceImpl<UserMapper, User> implements Au
             throw new ServerException(ErrorCode.OPERATION_FAIL);
         }
     }
+    @Override
+    public UserLoginVO loginByPhone(String phone, String code) {
+        // 获取验证码
+        String smsCacheKey= RedisKeys.getSmsKey(phone);
+
+        // 从redis中获取验证码
+        Integer redisCode=(Integer) redisCache.get(smsCacheKey);
+        // 校验验证码合法性
+        if (ObjectUtils.isEmpty(redisCode)||!redisCode.toString().equals(code)){
+            throw new ServerException(ErrorCode.SMS_CODE_ERROR);
+        }
+
+        // 删除用过的验证码
+        redisCache.delete(smsCacheKey);
+
+        // 根据手机号获取用户
+        User user=baseMapper.getByPhone(phone);
+
+
+//         判断用户是否注册过，如果user为空表示未注册，进行注册，否则开启登录流程
+        if (ObjectUtils.isEmpty(user)){
+            log.info("用户不存在，创建用户，phone:{}",code);
+            user =new User();
+            user.setNickname(phone);
+            user.setPhone(phone);
+            user.setAvatar("默认头像的url");
+            user.setRemark("这个人很懒，什么都没有写");
+            user.setPassword("123456");
+            baseMapper.insert(user);
+        }
+//        if(ObjectUtils.isEmpty(user)){
+//            throw new ServerException("账户不存在，请先微信注册");
+//        }
+
+
+
+        // 构造token
+        String accessToken = JwtUtil.createToken(user.getPkId());
+        //构造登录返回vo
+        UserLoginVO userLoginVO=new UserLoginVO();
+        userLoginVO.setPkId(user.getPkId());
+        userLoginVO.setPhone(user.getPhone());
+        userLoginVO.setAccessToken(accessToken);
+        tokenStoreCache.saveUser(accessToken,userLoginVO);
+        return userLoginVO;
+    }
 }
